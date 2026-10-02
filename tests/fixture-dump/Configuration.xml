@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" xmlns:v8="http://v8.1c.ru/8.1/data/core" version="2.17">
+	<Configuration uuid="00000000-0000-0000-0000-000000000001">
+		<Properties>
+			<Name>ДемоОбмен</Name>
+			<Synonym>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Демо обмен</v8:content>
+				</v8:item>
+			</Synonym>
+			<Version>1.0.0.1</Version>
+			<Vendor>Учебная</Vendor>
+			<CompatibilityMode>Version8_3_24</CompatibilityMode>
+			<DataLockControlMode>Managed</DataLockControlMode>
+			<ScriptVariant>Russian</ScriptVariant>
+			<DefaultRunMode>ManagedApplication</DefaultRunMode>
+		</Properties>
+		<ChildObjects>
+			<Document>ЗаказКлиента</Document>
+			<CommonModule>ОбменССайтомСервер</CommonModule>
+			<HTTPService>ОбменЗаказами</HTTPService>
+		</ChildObjects>
+	</Configuration>
+</MetaDataObject>

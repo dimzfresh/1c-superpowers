@@ -1,0 +1,31 @@
+# Шаблон для РЕПОЗИТОРИЯ С 1С-КОДОМ (не для этого плагина): статические проверки в MR.
+# Агента и модель в CI не запускаем: здесь только то, что дёшево и детерминированно.
+# Скопируйте в .gitlab-ci.yml проекта и поправьте пути (SRC_DIR) и версию BSL LS.
+stages: [static]
+
+variables:
+  SRC_DIR: "src/cf"          # каталог выгрузки (Configurator XML или EDT)
+  BSL_LS_VERSION: "1.0.7"    # на 2026-10-02 последний релиз v1.0.7; сверьте на github.com/1c-syntax/bsl-language-server/releases
+
+bsl-language-server:
+  stage: static
+  image: eclipse-temurin:17-jre
+  script:
+    # exec.jar весит около 130 МБ: закэшируйте его (cache: paths) или положите в образ раннера
+    - curl -sSL -o bsl-ls.jar "https://github.com/1c-syntax/bsl-language-server/releases/download/v${BSL_LS_VERSION}/bsl-language-server-${BSL_LS_VERSION}-exec.jar"
+    - java -Xmx4g -jar bsl-ls.jar --analyze --srcDir "$SRC_DIR" --reporter junit --outputDir .
+  artifacts:
+    when: always
+    reports:
+      junit: bsl-junit.xml
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+repo-checks-map:
+  stage: static
+  image: python:3.12-slim
+  script:
+    # find_checks.py ничего не запускает, только показывает, какие проверки есть в репозитории
+    - python3 skills/1c-verification/scripts/find_checks.py . || true
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"

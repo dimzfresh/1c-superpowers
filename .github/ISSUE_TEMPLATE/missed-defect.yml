@@ -1,0 +1,26 @@
+name: Пропущенный дефект
+description: В коде был настоящий дефект, а плагин промолчал или сказал «можно сдавать»
+title: "[пропуск] "
+labels: ["missed-defect"]
+body:
+  - type: markdown
+    attributes:
+      value: "**Секреты, пароли, адреса и имена клиентов из кода уберите.**"
+  - type: textarea
+    id: code
+    attributes:
+      label: Фрагмент кода (BSL)
+      render: bsl
+    validations:
+      required: true
+  - type: textarea
+    id: defect
+    attributes:
+      label: В чём дефект и чем он проявился
+      description: Что сломалось, как доказать по самому коду или по стандарту.
+    validations:
+      required: true
+  - type: textarea
+    id: said
+    attributes:
+      label: Что ответил агент

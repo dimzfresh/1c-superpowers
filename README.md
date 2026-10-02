@@ -1,6 +1,6 @@
 AI супер скила для 1С разработки
 
-**Статус:** релиз **1.1.0** — полный процессный контур без заглушек в `SKILL.md`.
+**Статус:** релиз **1.2.0** — полный процессный контур без заглушек в `SKILL.md`.
 
 Набор процессных скиллов для AI-агента (Cursor, Claude Code, Codex и любой, кто читает `SKILL.md`). Не каталог tool-skills и не замена BSL LS / Sonar: сначала фаза и роутер, потом инструменты и MCP.
 
@@ -60,3 +60,14 @@ EVAL_AGENT_CMD='claude -p' python3 evals/run_eval.py
 Что даёт выгрузка или MCP: [`evals/transcripts_facts/RESULTS.md`](evals/transcripts_facts/RESULTS.md). С фактами вердикт определённый и верный, без них всегда «сдать с оговоркой» + «не хватает факта».
 
 На слабой модели (haiku 4.5) выигрыш заметнее: with 57/58, without 64/87, разбор: [`evals/transcripts_haiku/RESULTS.md`](evals/transcripts_haiku/RESULTS.md).
+
+Слепая оценка независимым судьёй (30 пар, Opus): верных 29/30 без скиллов и 30/30 со скиллами, ложных утверждений 27 и 0, разбор и ограничения: [`evals/judge_results/RESULTS.md`](evals/judge_results/RESULTS.md).
+
+## Что ещё в комплекте
+
+- `skills/1c-review/scripts/config_facts.py`: факты из выгрузки без MCP (режим совместимости, блокировки, БСП, карточка объекта, поиск по коду).
+- `hooks/`: SessionStart (роутер) и PreToolUse-защита (force-push в защищённые ветки, загрузка конфигурации в базу).
+- `agents/1c-reviewer.md`, `commands/` (`/1c-review`, `/1c-verify`, `/1c-facts`) для Claude Code.
+- `ci/`: шаблон GitLab CI для проекта на 1С; `.github/workflows/tests.yml`: CI самого плагина.
+- `CONTRIBUTING.md` и шаблоны issue: цикл «ложное замечание → тест».
+- `scripts/context_budget.py`: бюджет контекста (описания ≈900 токенов всегда, тела и карточки по требованию).

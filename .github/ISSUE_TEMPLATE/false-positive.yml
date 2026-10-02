@@ -1,0 +1,35 @@
+name: Ложное замечание
+description: Плагин поставил замечание на законный код (или выдал уверенный вердикт без доказательства)
+title: "[ложное замечание] "
+labels: ["false-positive"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Такие случаи делают набор лучше: каждый становится тестом и исключением в карточке. **Секреты, пароли, адреса и имена клиентов из кода уберите.**
+  - type: textarea
+    id: code
+    attributes:
+      label: Фрагмент кода (BSL)
+      description: Минимальный фрагмент, на котором воспроизводится. Без секретов.
+      render: bsl
+    validations:
+      required: true
+  - type: textarea
+    id: said
+    attributes:
+      label: Что сказал агент
+      description: Замечание или вердикт дословно.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Почему это законно
+      description: Какое условие делает код корректным (ссылка на стандарт, документацию, поведение платформы).
+    validations:
+      required: true
+  - type: input
+    id: context
+    attributes:
+      label: Агент, модель, режим совместимости и блокировок (если знаете)

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MetaDataObject xmlns="http://v8.1c.ru/8.3/MDClasses" xmlns:v8="http://v8.1c.ru/8.1/data/core">
+	<Document uuid="00000000-0000-0000-0000-000000000010">
+		<Properties>
+			<Name>ЗаказКлиента</Name>
+			<Synonym>
+				<v8:item>
+					<v8:lang>ru</v8:lang>
+					<v8:content>Заказ клиента</v8:content>
+				</v8:item>
+			</Synonym>
+			<Posting>Allow</Posting>
+		</Properties>
+		<ChildObjects>
+			<Attribute uuid="00000000-0000-0000-0000-000000000011">
+				<Properties>
+					<Name>Контрагент</Name>
+				</Properties>
+			</Attribute>
+			<TabularSection uuid="00000000-0000-0000-0000-000000000012">
+				<Properties>
+					<Name>Товары</Name>
+				</Properties>
+				<ChildObjects>
+					<Attribute uuid="00000000-0000-0000-0000-000000000013">
+						<Properties>
+							<Name>Номенклатура</Name>
+						</Properties>
+					</Attribute>
+					<Attribute uuid="00000000-0000-0000-0000-000000000014">
+						<Properties>
+							<Name>Количество</Name>
+						</Properties>
+					</Attribute>
+				</ChildObjects>
+			</TabularSection>
+		</ChildObjects>
+	</Document>
+</MetaDataObject>
