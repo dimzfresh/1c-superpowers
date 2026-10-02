@@ -1,0 +1,111 @@
+[
+  {
+    "id": "lock-managed",
+    "fixture": "tests/fixture-negative/lock-read-write.bsl",
+    "prompt": "Сделай ревью проведения.",
+    "facts": "Имя: Склад\nРежим совместимости: Version8_3_24\nБлокировки: Managed\nВерсия установленной платформы: в выгрузке нет\nБСП: в выгрузке нет",
+    "with_facts": {
+      "must_match": [
+        "(?i)БлокировкаДанных",
+        "(?i)править|критичн"
+      ],
+      "must_not_match": []
+    },
+    "no_facts": {
+      "must_match": [
+        "(?i)не хватает факта|режим\\w*\\s+(управляем|блокировок)|режим блокировок"
+      ],
+      "must_not_match": [
+        "(?im)^\\W*можно сдавать\\W*$"
+      ]
+    }
+  },
+  {
+    "id": "lock-auto",
+    "fixture": "tests/fixture-negative/lock-read-write.bsl",
+    "prompt": "Сделай ревью проведения.",
+    "facts": "Имя: Склад\nРежим совместимости: Version8_3_24\nБлокировки: Automatic\nВерсия установленной платформы: в выгрузке нет\nБСП: в выгрузке нет",
+    "with_facts": {
+      "must_match": [],
+      "must_not_match": [
+        "(?i)(нужн|требуется|добав\\w+|необходим\\w+|отсутству\\w+)[^.\\n]{0,50}БлокировкаДанных"
+      ]
+    },
+    "no_facts": {
+      "must_match": [
+        "(?i)не хватает факта|режим\\w*\\s+(автоматическ|блокировок)|режим блокировок"
+      ],
+      "must_not_match": []
+    }
+  },
+  {
+    "id": "cache-session",
+    "fixture": "tests/fixture-negative/cache-params.bsl",
+    "prompt": "Проверь общий модуль.",
+    "facts": "Карточка объекта: ОбщийМодуль.НастройкиПовтИсп:\nСвойства: Server=true, ServerCall=false, Privileged=false, ReturnValuesReuse=DuringSession",
+    "with_facts": {
+      "must_match": [
+        "(?i)Структур\\w+|простого типа|примитивн|параметр\\w*[^.\\n]{0,60}(тип|ссылк)"
+      ],
+      "must_not_match": []
+    },
+    "no_facts": {
+      "must_match": [
+        "(?i)не хватает факта|флаг\\w*[^.\\n]{0,40}(повторн|ПовтИсп)|повторн\\w+ использован\\w+"
+      ],
+      "must_not_match": []
+    }
+  },
+  {
+    "id": "cache-off",
+    "fixture": "tests/fixture-negative/cache-params.bsl",
+    "prompt": "Проверь общий модуль.",
+    "facts": "Карточка объекта: ОбщийМодуль.НастройкиПовтИсп:\nСвойства: Server=true, ServerCall=false, Privileged=false, ReturnValuesReuse=DontUse",
+    "with_facts": {
+      "must_match": [],
+      "must_not_match": [
+        "(?i)(нарушени|критичн|важно)[^.\\n]{0,80}(Структур|параметр)"
+      ]
+    },
+    "no_facts": {
+      "must_match": [],
+      "must_not_match": []
+    }
+  },
+  {
+    "id": "async-old",
+    "fixture": "tests/fixture-negative/async-unknown-release.bsl",
+    "prompt": "Проверь клиентский код.",
+    "facts": "Версия установленной платформы: 8.3.12.1714 (окно «О программе»)\nРежим совместимости: Version8_3_12",
+    "with_facts": {
+      "must_match": [
+        "(?i)8\\.3\\.18|недоступн|не поддерж|ОписаниеОповещения"
+      ],
+      "must_not_match": []
+    },
+    "no_facts": {
+      "must_match": [
+        "(?i)не хватает факта|релиз|8\\.3\\.18"
+      ],
+      "must_not_match": [
+        "(?i)(запрещ|нельзя)[^.\\n]{0,40}Асинх"
+      ]
+    }
+  },
+  {
+    "id": "async-new",
+    "fixture": "tests/fixture-negative/async-unknown-release.bsl",
+    "prompt": "Проверь клиентский код.",
+    "facts": "Версия установленной платформы: 8.3.22.1923 (окно «О программе»)\nРежим совместимости: Version8_3_14",
+    "with_facts": {
+      "must_match": [],
+      "must_not_match": [
+        "(?i)(запрещ|нельзя|недоступн|не поддерж)[^.\\n]{0,50}Асинх"
+      ]
+    },
+    "no_facts": {
+      "must_match": [],
+      "must_not_match": []
+    }
+  }
+]

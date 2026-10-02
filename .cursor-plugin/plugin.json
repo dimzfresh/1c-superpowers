@@ -1,0 +1,10 @@
+{
+  "name": "1c-superpowers",
+  "displayName": "AI супер скила для 1С разработки",
+  "version": "1.1.0",
+  "description": "Процессный набор скиллов для AI-агента: plan → правка → debug → review → сдача. Diff, CFE, обновление поставщика. Cursor, Claude Code, Codex и любой, кто читает SKILL.md. Рабочую базу не открывает.",
+  "author": { "name": "Дмитрий Зябликов" },
+  "license": "MIT",
+  "keywords": ["1c", "bsl", "superpowers", "code-review", "bsp", "extension", "cicd"],
+  "skills": "./skills/"
+}

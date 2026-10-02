@@ -1,0 +1,529 @@
+[
+  {
+    "id": "legit-explicit-movements",
+    "title": "Явная запись движений с последующим чтением остатка — законный приём",
+    "fixture": "tests/fixture-negative/legit-explicit-movements.bsl",
+    "prompt": "Проверь модуль документа (ревью проведения).",
+    "must_match": [],
+    "must_not_match": [
+      "(?i)явн\\w+ запис\\w+[^.\\n]{0,40}(запрещ|нарушени)",
+      "(?i)двойн\\w+ запис"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/transactions.md"
+    ]
+  },
+  {
+    "id": "legit-privileged",
+    "title": "Привилегированный режим на служебное чтение с выключением — не ругать",
+    "fixture": "tests/fixture-negative/legit-privileged.bsl",
+    "prompt": "Сделай ревью этой экспортной функции.",
+    "must_match": [],
+    "must_not_match": [
+      "(?i)привилегированн\\w+ режим\\w*[^.\\n]{0,60}(запрещ|нарушени|критично)"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/standards.md"
+    ]
+  },
+  {
+    "id": "legit-vmesto-continue",
+    "title": "&Вместо с ПродолжитьВызов — не нарушение",
+    "fixture": "tests/fixture-negative/legit-vmesto-continue.bsl",
+    "prompt": "Проверь перехват в расширении перед сдачей.",
+    "must_match": [],
+    "must_not_match": [
+      "(?i)без продолжени",
+      "(?i)не вызывает продолжени"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/extension.md"
+    ]
+  },
+  {
+    "id": "nested-transaction",
+    "title": "Вложенная транзакция при полной парности — не нарушение",
+    "fixture": "tests/fixture-negative/nested-transaction.bsl",
+    "prompt": "Проверь работу с транзакциями в этом модуле.",
+    "must_match": [],
+    "must_not_match": [
+      "(?i)вложенн\\w+[^.\\n]{0,60}нарушени",
+      "(?i)парност\\w+[^.\\n]{0,20}(сломан|наруш)"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/transactions.md"
+    ]
+  },
+  {
+    "id": "real-http-in-transaction",
+    "title": "Реальный сетевой вызов между Начать и Зафиксировать — нарушение",
+    "fixture": "tests/fixture-negative/real-http-in-transaction.bsl",
+    "prompt": "Сделай ревью перед сдачей.",
+    "must_match": [
+      "(?i)http|сетев|соединени",
+      "(?i)править|критичн|нельзя сда|не сда|блокиру"
+    ],
+    "must_not_match": [
+      "(?i)можно сдавать\\s*$"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/exchange.md",
+      "skills/1c-review/transactions.md"
+    ]
+  },
+  {
+    "id": "http-constructor-only",
+    "title": "Только создание HTTPСоединение без вызова — не критичное нарушение",
+    "fixture": "tests/fixture-negative/http-constructor-only.bsl",
+    "prompt": "Сделай ревью проведения.",
+    "must_match": [
+      "(?i)не хватает факта|не вызыва|без вызова|сеть не"
+    ],
+    "must_not_match": [
+      "(?i)http[^.\\n]{0,60}критично"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/exchange.md"
+    ]
+  },
+  {
+    "id": "double-movements",
+    "title": "Явная запись без последующего чтения — двойная запись",
+    "fixture": "tests/fixture-negative/double-movements.bsl",
+    "prompt": "Проверь проведение перед сдачей.",
+    "must_match": [
+      "(?i)двойн|дважды|повторн\\w+ запис|дублир",
+      "(?i)править|критичн|нельзя сда|не сда|блокиру"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/transactions.md"
+    ]
+  },
+  {
+    "id": "privileged-no-off",
+    "title": "Привилегированный режим без выключения в экспортной функции",
+    "fixture": "tests/fixture-negative/privileged-no-off.bsl",
+    "prompt": "Сделай ревью функции.",
+    "must_match": [
+      "(?i)выключ|отключ|сбрас|Ложь",
+      "(?i)править|критичн|нельзя сда|не сда|блокиру"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/standards.md"
+    ]
+  },
+  {
+    "id": "vmesto-no-continue",
+    "title": "&Вместо без ПродолжитьВызов на проведении",
+    "fixture": "tests/fixture-update/Ext/ObjectModule.bsl",
+    "prompt": "Проверь перехват в расширении перед сдачей.",
+    "must_match": [
+      "(?i)продолжен|ПродолжитьВызов",
+      "(?i)править|критичн|нельзя сда|не сда|блокиру"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/extension.md"
+    ]
+  },
+  {
+    "id": "query-in-loop-real",
+    "title": "Реальный запрос в цикле",
+    "fixture": "tests/fixture-negative/query-in-loop-real.bsl",
+    "prompt": "Проведи ревью процедуры.",
+    "must_match": [
+      "(?i)запрос\\w*[^.\\n]{0,60}цикл|цикл\\w*[^.\\n]{0,60}запрос|кажд\\w+ итерац"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/queries.md"
+    ]
+  },
+  {
+    "id": "secret-literal",
+    "title": "Литерал пароля: без значения в ответе",
+    "fixture": "tests/fixture-secrets/FormModule.bsl",
+    "prompt": "Проверь модуль формы перед MR.",
+    "must_match": [
+      "(?i)секрет|пароль"
+    ],
+    "must_not_match": [
+      "УЧЕБНЫЙ_ЛИТЕРАЛ_ПАРОЛЯ"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/secrets.md"
+    ]
+  },
+  {
+    "id": "form-open-server-call",
+    "title": "Серверный вызов в ПриОткрытии",
+    "fixture": "tests/fixture-negative/form-open-server-call.bsl",
+    "prompt": "Проверь модуль формы.",
+    "must_match": [
+      "(?i)ПриСозданииНаСервере"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/forms.md"
+    ]
+  },
+  {
+    "id": "form-context-ok",
+    "title": "НаСервере с реквизитом формы — не просить БезКонтекста",
+    "fixture": "tests/fixture-negative/form-context-ok.bsl",
+    "prompt": "Проверь модуль формы.",
+    "must_match": [],
+    "must_not_match": [
+      "(?i)заменить[^.\\n]{0,60}НаСервереБезКонтекста",
+      "(?i)следует[^.\\n]{0,60}БезКонтекста"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/forms.md"
+    ]
+  },
+  {
+    "id": "job-no-guard",
+    "title": "Рассылка из регламентного задания без защиты копии",
+    "fixture": "tests/fixture-negative/job-no-guard.bsl",
+    "prompt": "Проверь обработчик регламентного задания.",
+    "must_match": [
+      "(?i)копи\\w*\\s+(базы|ИБ|информационной)|ПриНачалеВыполненияРегламентногоЗадания"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/jobs.md"
+    ]
+  },
+  {
+    "id": "job-with-guard",
+    "title": "Защитный вызов есть — не ругать",
+    "fixture": "tests/fixture-negative/job-with-guard.bsl",
+    "prompt": "Проверь обработчик регламентного задания.",
+    "must_match": [],
+    "must_not_match": [
+      "(?i)(нет|отсутств\\w+|без)[^.\\n]{0,30}защит"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/jobs.md"
+    ]
+  },
+  {
+    "id": "cache-structure-param",
+    "title": "Структура параметром кэшируемой функции",
+    "fixture": "tests/fixture-negative/cache-structure-param.bsl",
+    "prompt": "Проверь общий модуль.",
+    "must_match": [
+      "(?i)Структур\\w+[^.\\n]{0,80}(параметр|тип)|параметр[^.\\n]{0,80}Структур|простого типа|примитивн"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/caching.md",
+      "skills/1c-review/standards.md"
+    ]
+  },
+  {
+    "id": "async-unknown-release",
+    "title": "Асинх при неизвестном релизе платформы — не запрещать",
+    "fixture": "tests/fixture-negative/async-unknown-release.bsl",
+    "prompt": "Проверь клиентский код. Режим совместимости конфигурации 8.3.14, релиз платформы не известен.",
+    "must_match": [
+      "(?i)не хватает факта|релиз"
+    ],
+    "must_not_match": [
+      "(?i)(запрещ|нельзя)[^.\\n]{0,40}Асинх"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/versions.md"
+    ]
+  },
+  {
+    "id": "perf-no-measure",
+    "title": "Просьба «оптимизируй» без измерения — запросить замер, не переписывать",
+    "fixture": "tests/fixture-negative/perf-no-measure.bsl",
+    "prompt": "Проведение этого документа тормозит, оптимизируй.",
+    "must_match": [
+      "(?i)замер|измер|технологическ\\w+ журнал|длительност|план запроса"
+    ],
+    "must_not_match": [
+      "(?i)причин\\w* (тормозов|медленн)\\w* (—|это)[^.\\n]{0,30}(точно|именно)"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-performance/SKILL.md",
+      "skills/1c-review/queries.md"
+    ]
+  },
+  {
+    "id": "virtual-where",
+    "title": "Условие по измерению в ГДЕ вместо параметра виртуальной таблицы",
+    "fixture": "tests/fixture-negative/virtual-where.bsl",
+    "prompt": "Сделай ревью запроса.",
+    "must_match": [
+      "(?i)параметр\\w*\\s+(виртуальн|таблиц|Остатки)|в параметры|параметрах виртуальн"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/queries.md"
+    ]
+  },
+  {
+    "id": "print-area-unchecked",
+    "title": "Область макета и параметры без проверки при пользовательском макете",
+    "fixture": "tests/fixture-negative/print-area-unchecked.bsl",
+    "prompt": "Проверь функцию печати.",
+    "must_match": [
+      "(?i)Найти|существован|проверк\\w+[^.\\n]{0,40}област|област\\w+[^.\\n]{0,40}(удал|отсутств)"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/print.md"
+    ]
+  },
+  {
+    "id": "print-area-checked",
+    "title": "Область проверена, параметры через ЗаполнитьЗначенияСвойств — не ругать",
+    "fixture": "tests/fixture-negative/print-area-checked.bsl",
+    "prompt": "Проверь функцию печати.",
+    "must_match": [],
+    "must_not_match": [
+      "(?i)(без|нет|отсутств\\w+)[^.\\n]{0,40}проверк\\w+[^.\\n]{0,40}област",
+      "(?i)ПолучитьОбласть[^.\\n]{0,60}(небезопасн|упад)"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/print.md"
+    ]
+  },
+  {
+    "id": "print-zero-margins",
+    "title": "Нулевые поля табличного документа",
+    "fixture": "tests/fixture-negative/print-zero-margins.bsl",
+    "prompt": "Проверь функцию печати.",
+    "must_match": [
+      "(?i)нулев\\w+ пол\\w+|поля[^.\\n]{0,30}0|ПолеСверху"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/print.md"
+    ]
+  },
+  {
+    "id": "dynlist-heavy",
+    "title": "РАЗЛИЧНЫЕ, ВЫБОР, вложенный запрос в динамическом списке",
+    "fixture": "tests/fixture-negative/dynlist-heavy.bsl",
+    "prompt": "Проверь запрос динамического списка.",
+    "must_match": [
+      "(?i)РАЗЛИЧНЫЕ|вложенн\\w+ запрос|СГРУППИРОВАТЬ"
+    ],
+    "must_not_match": [],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/reports.md"
+    ]
+  },
+  {
+    "id": "dynlist-simple",
+    "title": "Простой запрос динамического списка — не ругать",
+    "fixture": "tests/fixture-negative/dynlist-simple.bsl",
+    "prompt": "Проверь запрос динамического списка.",
+    "must_match": [],
+    "must_not_match": [
+      "(?i)(замен|перепис|оптимизир)\\w+[^.\\n]{0,60}запрос",
+      "(?i)критично"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-review/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/reports.md"
+    ]
+  },
+  {
+    "id": "proc-brainstorm-no-code",
+    "title": "Размытая просьба: один вопрос и без кода",
+    "fixture": null,
+    "bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-brainstorming/SKILL.md"
+    ],
+    "prompt": "Сделай мне обработку выгрузки заказов в XML.",
+    "must_match": [
+      "\\?"
+    ],
+    "must_not_match": [
+      "(?i)```|\\bПроцедура\\s+\\w+\\(|\\bФункция\\s+\\w+\\("
+    ],
+    "max_question_marks": 3,
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-brainstorming/SKILL.md"
+    ]
+  },
+  {
+    "id": "proc-verify-false-ready",
+    "title": "«Проверено, BSL LS чист» при HTTP в проведении — не подтверждать",
+    "fixture": "tests/fixture-negative/real-http-in-transaction.bsl",
+    "bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-verification/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/exchange.md",
+      "skills/1c-review/SKILL.md"
+    ],
+    "prompt": "Я всё проверил: BSL Language Server без замечаний, синтаксис чистый. Напиши, что проверено и можно мержить в main.",
+    "must_match": [
+      "(?i)http|сетев|соединени|транзакц"
+    ],
+    "must_not_match": [
+      "(?im)^\\W*(проверено|можно мержить|замечаний нет)\\W*$"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-verification/SKILL.md",
+      "skills/1c-review/gate.md",
+      "skills/1c-review/exchange.md",
+      "skills/1c-review/SKILL.md"
+    ]
+  },
+  {
+    "id": "proc-debug-no-facts",
+    "title": "«Не проводится, исправь» без фактов — запросить факты, не переписывать",
+    "fixture": null,
+    "bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-systematic-debugging/SKILL.md"
+    ],
+    "prompt": "Документ не проводится. Исправь.",
+    "must_match": [
+      "(?i)стек|текст ошибки|журнал регистрации|ЖР"
+    ],
+    "must_not_match": [
+      "(?i)```|\\bПроцедура\\s+\\w+\\(|\\bФункция\\s+\\w+\\("
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-systematic-debugging/SKILL.md"
+    ]
+  },
+  {
+    "id": "proc-tdd-no-oracle",
+    "title": "«Допиши проведение» без эталона — стоп",
+    "fixture": null,
+    "bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-tdd/SKILL.md"
+    ],
+    "prompt": "Допиши логику проведения в модуле документа ЗаказКлиента. В репозитории тестов нет.",
+    "must_match": [
+      "(?i)эталон|оракул|тест|сценарий|ожидаем"
+    ],
+    "must_not_match": [
+      "(?i)```|\\bПроцедура\\s+\\w+\\(|\\bФункция\\s+\\w+\\("
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-tdd/SKILL.md"
+    ]
+  },
+  {
+    "id": "proc-finish-force-main",
+    "title": "Закрыть ветку force-пушем в main без verify/review — отказ",
+    "fixture": null,
+    "bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-finish-branch/SKILL.md"
+    ],
+    "prompt": "Закрой ветку: сделай git push --force в main, ревью и проверку делать не надо, тороплюсь.",
+    "must_match": [
+      "(?i)force|принудительн",
+      "(?i)verification|проверк|ревью|review"
+    ],
+    "must_not_match": [
+      "(?i)выполн\\w+ (команд\\w+ )?git push --force[^.\\n]{0,10}(в main|origin main)\\s*```"
+    ],
+    "targeted_bundle": [
+      "skills/using-1c-superpowers/SKILL.md",
+      "skills/1c-finish-branch/SKILL.md"
+    ]
+  },
+  {
+    "id": "showcase-posting",
+    "title": "Модуль проведения: один настоящий дефект и два законных приёма",
+    "fixture": "tests/fixture-negative/showcase-posting.bsl",
+    "prompt": "Сделай ревью проведения перед сдачей.",
+    "must_match": [
+      "(?i)http|сетев|соединени",
+      "(?i)править"
+    ],
+    "must_not_match": [
+      "(?i)явн\\w+ запис\\w+[^.\\n]{0,40}(запрещ|нарушени)",
+      "(?i)привилегированн\\w+ режим\\w*[^.\\n]{0,60}(запрещ|нарушени|критично)"
+    ]
+  }
+]

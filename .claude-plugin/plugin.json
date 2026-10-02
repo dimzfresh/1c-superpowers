@@ -1,0 +1,8 @@
+{
+  "name": "1c-superpowers",
+  "description": "AI супер скила для 1С разработки: процессный набор скиллов plan → правка → debug → verify → review → сдача. Рабочую базу не открывает.",
+  "version": "1.1.0",
+  "author": { "name": "Дмитрий Зябликов" },
+  "license": "MIT",
+  "keywords": ["1c", "bsl", "superpowers", "code-review", "bsp", "extension"]
+}

@@ -1,0 +1,70 @@
+[
+  {
+    "id": "http-in-posting",
+    "title": "HTTP внутри ОбработкаПроведения",
+    "fixture": "tests/fixture-http-posting/Documents/ЗаказКлиента/Ext/ObjectModule.bsl",
+    "scenario": "scenarios/bake-http-in-posting.md",
+    "skill": "1c-review",
+    "expected_verdict": "править",
+    "expected_classes": ["нарушение"],
+    "must_mention": ["http", "проведен"],
+    "must_not_mention": ["запрос в цикле", "секрет"]
+  },
+  {
+    "id": "false-query-in-loop",
+    "title": "Ложный «запрос в цикле» на том же модуле",
+    "fixture": "tests/fixture-http-posting/Documents/ЗаказКлиента/Ext/ObjectModule.bsl",
+    "scenario": "scenarios/bake-http-in-posting.md",
+    "skill": "1c-review",
+    "expected_verdict": "править",
+    "expected_classes": [],
+    "must_mention": ["ложн", "запрос в цикле"],
+    "must_not_mention": [],
+    "notes": "Выполнить() только в коллекции Для Каждого; второй Запрос без Выполнить — не нарушение (законный / не ставить)"
+  },
+  {
+    "id": "cfe-missing-second-dump",
+    "title": "Основная без CFE: цепочку &Вместо не судить",
+    "fixture": null,
+    "scenario": "scenarios/bake-extension-missing-cfe.md",
+    "skill": "1c-extension",
+    "expected_verdict": null,
+    "expected_classes": ["не хватает факта"],
+    "must_mention": ["не хватает факта"],
+    "must_not_mention": ["можно сдавать"]
+  },
+  {
+    "id": "update-vendor-vmesto",
+    "title": "&Вместо без продолжения в diff обновления",
+    "fixture": "tests/fixture-update/Ext/ObjectModule.bsl",
+    "scenario": "scenarios/bake-update-vendor.md",
+    "skill": "1c-update",
+    "expected_verdict": "править",
+    "expected_classes": ["нарушение"],
+    "must_mention": ["вместо", "продолжен"],
+    "must_not_mention": []
+  },
+  {
+    "id": "transaction-parity-incomplete",
+    "title": "Один НачатьТранзакцию во фрагменте — не ломать парность",
+    "fixture": "tests/fixture-transactions/incomplete-parity.bsl",
+    "scenario": "scenarios/bake-transaction-parity-incomplete.md",
+    "skill": "1c-review",
+    "expected_verdict": null,
+    "expected_classes": ["не хватает факта"],
+    "must_mention": ["не хватает факта"],
+    "must_not_mention": ["парность", "критично"]
+  },
+  {
+    "id": "secret-in-mr",
+    "title": "Литерал пароля: замечание без значения в MR",
+    "fixture": "tests/fixture-secrets/FormModule.bsl",
+    "scenario": "scenarios/bake-secret-in-mr.md",
+    "skill": "1c-review",
+    "expected_verdict": "править",
+    "expected_classes": ["нарушение"],
+    "must_mention": ["секрет", "не копировать"],
+    "must_not_mention": [],
+    "forbidden_in_run": ["УЧЕБНЫЙ_ЛИТЕРАЛ_ПАРОЛЯ"]
+  }
+]
