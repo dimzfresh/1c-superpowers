@@ -70,6 +70,46 @@ def dump(out: Path, transcripts: Path, rep: int, seed: int) -> None:
     (out / "key.json").write_text(json.dumps(key, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+SINGLE_RUBRIC = """Ты независимый оценщик ревью кода 1С. Ниже задача, эталон правильного ответа и ОДИН ответ. Оцени ответ только по эталону и по присланному коду, не по длине и стилю.
+
+Поставь:
+- "correct": 1, если главный вывод ответа совпадает с эталоном (для kind=defect: настоящий дефект назван и не выдан за мелочь; для kind=legit: законный приём не назван нарушением; для kind=need_fact: ответ не утверждает дефект или его отсутствие, а называет, какого факта не хватает), иначе 0;
+- "false_claims": число утверждений, поданных как проблема или как факт, которые эталон считает законными или которые не следуют из присланного кода (приём, названный в ответе законным, ложным утверждением не считается);
+- "reason": одна фраза.
+
+Верни только JSON вида {"correct": 0|1, "false_claims": n, "reason": "..."}."""
+
+
+def dump_single(out: Path, transcripts: Path, mode: str, rep: int) -> None:
+    out.mkdir(parents=True, exist_ok=True)
+    truth, cases = load_truth(), load_cases()
+    for cid in sorted(truth):
+        path = transcripts / f"{cid}.{mode}.{rep}.txt"
+        if not path.is_file():
+            continue
+        prompt = (
+            f"{SINGLE_RUBRIC}\n\n=== ЗАДАЧА ===\n{task_text(cases[cid])}\n\n"
+            f"=== ТИП КЕЙСА ===\n{truth[cid]['kind']}\n\n=== ЭТАЛОН ===\n{truth[cid]['truth']}\n\n=== ОТВЕТ ===\n{path.read_text(encoding='utf-8')}\n"
+        )
+        (out / f"{cid}.{mode}.single.prompt.txt").write_text(prompt, encoding="utf-8")
+
+
+def score_single(results: Path, mode: str) -> dict:
+    truth = load_truth()
+    by_kind: dict = {}
+    total = {"n": 0, "correct": 0, "false_claims": 0}
+    for cid, item in truth.items():
+        data = parse(results / f"{cid}.{mode}.single.json") if (results / f"{cid}.{mode}.single.json").is_file() else None
+        if not data or "correct" not in data:
+            continue
+        k = by_kind.setdefault(item["kind"], {"n": 0, "correct": 0, "false_claims": 0})
+        for bucket in (k, total):
+            bucket["n"] += 1
+            bucket["correct"] += int(data["correct"])
+            bucket["false_claims"] += int(data.get("false_claims", 0))
+    return {"total": total, "by_kind": by_kind}
+
+
 def parse(path: Path) -> dict | None:
     text = path.read_text(encoding="utf-8")
     start, end = text.find("{"), text.rfind("}")
@@ -111,6 +151,9 @@ def score(results: Path, prompts: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dump")
+    ap.add_argument("--dump-single")
+    ap.add_argument("--score-single", nargs=2, metavar=("RESULTS", "MODE"))
+    ap.add_argument("--mode", default="with")
     ap.add_argument("--score", nargs=2)
     ap.add_argument("--transcripts", default=str(ROOT / "evals" / "transcripts"))
     ap.add_argument("--rep", type=int, default=1)
@@ -118,6 +161,16 @@ def main() -> int:
     args = ap.parse_args()
     if args.dump:
         dump(Path(args.dump), Path(args.transcripts), args.rep, args.seed)
+        return 0
+    if args.dump_single:
+        dump_single(Path(args.dump_single), Path(args.transcripts), args.mode, args.rep)
+        return 0
+    if args.score_single:
+        r = score_single(Path(args.score_single[0]), args.score_single[1])
+        t = r["total"]
+        print(f"{args.score_single[1]}: верных {t['correct']}/{t['n']}  ложных утверждений {t['false_claims']}")
+        for kind, v in sorted(r["by_kind"].items()):
+            print(f"  {kind:10} верных {v['correct']}/{v['n']}  ложных {v['false_claims']}")
         return 0
     if args.score:
         r = score(Path(args.score[0]), Path(args.score[1]))

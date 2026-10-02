@@ -61,3 +61,24 @@ class JudgeTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class SingleModeTests(unittest.TestCase):
+    def test_single_dump_and_score(self):
+        import os
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            tr = tmp / "tr"; tr.mkdir()
+            truth = judge.load_truth()
+            for cid in truth:
+                (tr / f"{cid}.with.1.txt").write_text("ответ", encoding="utf-8")
+            out = tmp / "p"
+            judge.dump_single(out, tr, "with", 1)
+            files = list(out.glob("*.single.prompt.txt"))
+            self.assertEqual(len(files), len(truth))
+            res = tmp / "r"; res.mkdir()
+            for cid in truth:
+                (res / f"{cid}.with.single.json").write_text(json.dumps({"correct": 1, "false_claims": 2}), encoding="utf-8")
+            r = judge.score_single(res, "with")
+            self.assertEqual(r["total"]["correct"], len(truth))
+            self.assertEqual(r["total"]["false_claims"], 2 * len(truth))

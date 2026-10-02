@@ -1,0 +1,194 @@
+[
+  {
+    "id": "est-li-nezakrytye-smeny",
+    "title": "est-li-nezakrytye-smeny",
+    "fixture": "tests/fixture-independent2/est-li-nezakrytye-smeny.bsl",
+    "prompt": "Глянь функцию проверки открытой смены перед пробитием чека, есть замечания?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "zagruzka-prays-postavshchika",
+    "title": "zagruzka-prays-postavshchika",
+    "fixture": "tests/fixture-independent2/zagruzka-prays-postavshchika.bsl",
+    "prompt": "Посмотри загрузку прайса поставщика, норм так?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "nomer-partii-dlya-izmeneniya",
+    "title": "nomer-partii-dlya-izmeneniya",
+    "fixture": "tests/fixture-independent2/nomer-partii-dlya-izmeneniya.bsl",
+    "prompt": "Ревью: генерация номера партии, не будет ли дублей при параллельной работе?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "rasshirenie-ceny-izmenenie-i-kontrol",
+    "title": "rasshirenie-ceny-izmenenie-i-kontrol",
+    "fixture": "tests/fixture-independent2/rasshirenie-ceny-izmenenie-i-kontrol.bsl",
+    "prompt": "В расширении поменяли расчёт суммы строки — это же копипаста типовой процедуры, нормально?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "ochistka-ocheredi-marketpleys",
+    "title": "ochistka-ocheredi-marketpleys",
+    "fixture": "tests/fixture-independent2/ochistka-ocheredi-marketpleys.bsl",
+    "prompt": "Регламентное задание чистит подтверждённые отправки, посмотри перед мержем",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "kontrol-ostatkov-posle-zapisi-dvizheniy",
+    "title": "kontrol-ostatkov-posle-zapisi-dvizheniy",
+    "fixture": "tests/fixture-independent2/kontrol-ostatkov-posle-zapisi-dvizheniy.bsl",
+    "prompt": "Зачем тут Движения.Записать() прямо в ОбработкаПроведения? Посмотри, не задвоится ли",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "spisanie-bonusnyh-ballov-karty",
+    "title": "spisanie-bonusnyh-ballov-karty",
+    "fixture": "tests/fixture-independent2/spisanie-bonusnyh-ballov-karty.bsl",
+    "prompt": "Проверь списание бонусов, вроде с блокировкой всё сделали",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "rib-filtr-po-organizacii-udalit",
+    "title": "rib-filtr-po-organizacii-udalit",
+    "fixture": "tests/fixture-independent2/rib-filtr-po-organizacii-udalit.bsl",
+    "prompt": "В обработчике плана обмена филиалам отправляется «Удалить» — это не снесёт данные у филиала?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "markery-dostupa-sklad-api",
+    "title": "markery-dostupa-sklad-api",
+    "fixture": "tests/fixture-independent2/markery-dostupa-sklad-api.bsl",
+    "prompt": "Получение токена складской системы вынесли в отдельный модуль. Есть ли тут проблема?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "forma-zakaza-rasshirenie-sozdanie",
+    "title": "forma-zakaza-rasshirenie-sozdanie",
+    "fixture": "tests/fixture-independent2/forma-zakaza-rasshirenie-sozdanie.bsl",
+    "prompt": "Добавили поле «Канал продаж» на форму заказа через расширение. Глянь, пожалуйста",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "proverka-zakrytiya-perioda-privilegirovanno",
+    "title": "proverka-zakrytiya-perioda-privilegirovanno",
+    "fixture": "tests/fixture-independent2/proverka-zakrytiya-perioda-privilegirovanno.bsl",
+    "prompt": "Тут привилегированный режим, безопасники будут ругаться. Посмотри",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "realizaciya-sebestoimost-po-tovaram",
+    "title": "realizaciya-sebestoimost-po-tovaram",
+    "fixture": "tests/fixture-independent2/realizaciya-sebestoimost-po-tovaram.bsl",
+    "prompt": "Ревью проведения реализации: расчёт себестоимости",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "obnovlenie-zapolnenie-kanala-zagruzka",
+    "title": "obnovlenie-zapolnenie-kanala-zagruzka",
+    "fixture": "tests/fixture-independent2/obnovlenie-zapolnenie-kanala-zagruzka.bsl",
+    "prompt": "Обработчик обновления пишет заказы с ОбменДанными.Загрузка = Истина — это же отключает всю логику, так можно?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "zadacha-soglasovaniya-dogovora",
+    "title": "zadacha-soglasovaniya-dogovora",
+    "fixture": "tests/fixture-independent2/zadacha-soglasovaniya-dogovora.bsl",
+    "prompt": "Добавили автосоздание задачи на согласование договора, посмотри модуль объекта",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "asinh-podtverzhdenie-otmeny",
+    "title": "asinh-podtverzhdenie-otmeny",
+    "fixture": "tests/fixture-independent2/asinh-podtverzhdenie-otmeny.bsl",
+    "prompt": "Переписали отмену отгрузки на Асинх/Ждать — можно вливать?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "razdelyaemyy-zamok-kursov",
+    "title": "razdelyaemyy-zamok-kursov",
+    "fixture": "tests/fixture-independent2/razdelyaemyy-zamok-kursov.bsl",
+    "prompt": "Зачем разделяемая блокировка на всю таблицу курсов? Выглядит странно",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "rezerv-pod-zakaz-zamki-registrov",
+    "title": "rezerv-pod-zakaz-zamki-registrov",
+    "fixture": "tests/fixture-independent2/rezerv-pod-zakaz-zamki-registrov.bsl",
+    "prompt": "Проверь, пожалуйста, проведение заказа на перемещение — жалуются на ожидания на блокировках",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "poisk-s-zaderzhkoy-v-podbore",
+    "title": "poisk-s-zaderzhkoy-v-podbore",
+    "fixture": "tests/fixture-independent2/poisk-s-zaderzhkoy-v-podbore.bsl",
+    "prompt": "Посмотри поиск в форме подбора — там какие-то обработчики ожидания, не костыль ли?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "limit-kredita-pered-zapisyu",
+    "title": "limit-kredita-pered-zapisyu",
+    "fixture": "tests/fixture-independent2/limit-kredita-pered-zapisyu.bsl",
+    "prompt": "Добавили контроль кредитного лимита в расширении заказа клиента, ок по логике?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "otchet-oplaty-levoe-soedinenie",
+    "title": "otchet-oplaty-levoe-soedinenie",
+    "fixture": "tests/fixture-independent2/otchet-oplaty-levoe-soedinenie.bsl",
+    "prompt": "В отчёте по неоплаченным счетам условия на оплаты стоят в ПО, а не в ГДЕ — это ошибка?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "vyzov-modulya-edo-s-klienta",
+    "title": "vyzov-modulya-edo-s-klienta",
+    "fixture": "tests/fixture-independent2/vyzov-modulya-edo-s-klienta.bsl",
+    "prompt": "Кнопка обновления статусов ЭДО в списке, посмотри клиентский код",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "proverka-markirovki-v-forme",
+    "title": "proverka-markirovki-v-forme",
+    "fixture": "tests/fixture-independent2/proverka-markirovki-v-forme.bsl",
+    "prompt": "Посмотри проверку кодов маркировки в документе приёмки",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "reglament-pereschet-reytinga-portsiyami",
+    "title": "reglament-pereschet-reytinga-portsiyami",
+    "fixture": "tests/fixture-independent2/reglament-pereschet-reytinga-portsiyami.bsl",
+    "prompt": "Тут «Пока Истина» в регламентном задании, не зациклится?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "reqvizit-dlya-klienta-bez-prav",
+    "title": "reqvizit-dlya-klienta-bez-prav",
+    "fixture": "tests/fixture-independent2/reqvizit-dlya-klienta-bez-prav.bsl",
+    "prompt": "Рекрутерам не хватало прав на карточку, сделали серверную функцию. Ревью",
+    "must_match": [],
+    "must_not_match": []
+  }
+]
