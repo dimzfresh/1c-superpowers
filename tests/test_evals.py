@@ -208,3 +208,14 @@ class FactsEvalManifestTests(unittest.TestCase):
                 for key in ("with_facts", "no_facts"):
                     for pattern in case[key]["must_match"] + case[key]["must_not_match"]:
                         re.compile(pattern)
+
+
+class IndependentSetTests(unittest.TestCase):
+    def test_independent_manifest_and_truth_consistent(self):
+        manifest = json.loads((ROOT / "evals" / "independent" / "manifest.json").read_text(encoding="utf-8"))
+        truth = json.loads((ROOT / "evals" / "independent" / "truth.json").read_text(encoding="utf-8"))
+        self.assertEqual({c["id"] for c in manifest}, set(truth))
+        self.assertEqual(sum(v["kind"] == "defect" for v in truth.values()), 7)
+        self.assertEqual(sum(v["kind"] == "legit" for v in truth.values()), 7)
+        for c in manifest:
+            self.assertTrue((ROOT / c["fixture"]).is_file())

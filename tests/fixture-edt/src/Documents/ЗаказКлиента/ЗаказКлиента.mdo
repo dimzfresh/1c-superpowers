@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdclass:Document xmlns:mdclass="http://g5.1c.ru/v8/dt/metadata/mdclass" uuid="00000000-0000-0000-0000-0000000000a3">
+  <name>ЗаказКлиента</name>
+  <synonym>
+    <key>ru</key>
+    <value>Заказ клиента</value>
+  </synonym>
+  <posting>Allow</posting>
+  <realTimePosting>Deny</realTimePosting>
+  <attributes uuid="00000000-0000-0000-0000-0000000000a4">
+    <name>Контрагент</name>
+  </attributes>
+  <tabularSections uuid="00000000-0000-0000-0000-0000000000a5">
+    <name>Товары</name>
+    <attributes uuid="00000000-0000-0000-0000-0000000000a6">
+      <name>Номенклатура</name>
+    </attributes>
+    <attributes uuid="00000000-0000-0000-0000-0000000000a7">
+      <name>Количество</name>
+    </attributes>
+  </tabularSections>
+</mdclass:Document>

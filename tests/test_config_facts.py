@@ -8,6 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "skills" / "1c-review" / "scripts" / "config_facts.py"
 DUMP = ROOT / "tests" / "fixture-dump"
 BSP = ROOT / "tests" / "fixture-dump-bsp"
+EDT = ROOT / "tests" / "fixture-edt"
 
 
 def run(*args):
@@ -52,6 +53,28 @@ class ConfigFactsTests(unittest.TestCase):
             code, _, err = run("info", tmp)
             self.assertEqual(code, 1)
             self.assertIn("1CD", err)
+
+    def test_edt_info_from_project_root_and_src(self):
+        for root in (EDT, EDT / "src"):
+            code, out, _ = run("info", root)
+            self.assertEqual(code, 0)
+            self.assertIn("Режим совместимости: 8.3.24", out)
+            self.assertIn("Блокировки: Managed", out)
+            self.assertIn("Формат выгрузки: EDT (.mdo)", out)
+
+    def test_edt_card_flags_and_modules(self):
+        _, out, _ = run("card", EDT, "CommonModules", "ОбменССайтомСервер")
+        self.assertIn("returnValuesReuse=DuringSession", out)
+        self.assertIn("privileged=true", out)
+        self.assertIn("Module.bsl", out)
+        _, doc, _ = run("card", EDT, "Documents", "ЗаказКлиента")
+        self.assertIn("Товары: Номенклатура, Количество", doc)
+
+    def test_edt_search_and_list(self):
+        _, out, _ = run("search", EDT, "HTTPСоединение")
+        self.assertRegex(out, r"ObjectModule\.bsl:\d+:")
+        _, listing, _ = run("list", EDT, "Documents")
+        self.assertIn("ЗаказКлиента", listing)
 
     def test_no_writes_in_script(self):
         text = SCRIPT.read_text(encoding="utf-8")

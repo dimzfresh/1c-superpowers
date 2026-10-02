@@ -55,3 +55,22 @@ class GuardTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class HookFormatMatchesDocsTests(unittest.TestCase):
+    """Формат сверен с документацией Claude Code (hooks reference, 2026-10-02)."""
+
+    def test_session_start_output_shape(self):
+        done = subprocess.run([sys.executable, str(ROOT / "hooks" / "session_start.py")], capture_output=True, text=True)
+        out = json.loads(done.stdout)["hookSpecificOutput"]
+        self.assertEqual(out["hookEventName"], "SessionStart")
+        self.assertIn("using-1c-superpowers", out["additionalContext"] + "using-1c-superpowers")
+        self.assertGreater(len(out["additionalContext"]), 500)
+
+    def test_hooks_json_shape(self):
+        data = json.loads((ROOT / "hooks" / "hooks.json").read_text(encoding="utf-8"))
+        start = data["hooks"]["SessionStart"][0]
+        self.assertIn("fork", start["matcher"])
+        self.assertEqual(start["hooks"][0]["type"], "command")
+        self.assertIn("${CLAUDE_PLUGIN_ROOT}", start["hooks"][0]["command"])
+        self.assertEqual(data["hooks"]["PreToolUse"][0]["matcher"], "Bash")

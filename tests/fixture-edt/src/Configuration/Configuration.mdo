@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mdclass:Configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mdclass="http://g5.1c.ru/v8/dt/metadata/mdclass" uuid="00000000-0000-0000-0000-0000000000a1">
+  <name>ДемоEDT</name>
+  <synonym>
+    <key>ru</key>
+    <value>Демо EDT</value>
+  </synonym>
+  <defaultRunMode>ManagedApplication</defaultRunMode>
+  <scriptVariant>Russian</scriptVariant>
+  <vendor>Учебная</vendor>
+  <version>1.0.0.1</version>
+  <dataLockControlMode>Managed</dataLockControlMode>
+  <modalityUseMode>DontUse</modalityUseMode>
+  <compatibilityMode>8.3.24</compatibilityMode>
+  <commonModules>CommonModule.ОбменССайтомСервер</commonModules>
+  <documents>Document.ЗаказКлиента</documents>
+</mdclass:Configuration>

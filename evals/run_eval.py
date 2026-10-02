@@ -80,7 +80,9 @@ def check(case: dict, answer: str) -> list[str]:
 
 
 def all_cases() -> list[dict]:
-    return json.loads((ROOT / "evals" / "negative.json").read_text(encoding="utf-8"))
+    manifest = os.environ.get("EVAL_MANIFEST")
+    path = Path(manifest) if manifest else ROOT / "evals" / "negative.json"
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def dump(directory: Path, targeted: bool = False) -> None:

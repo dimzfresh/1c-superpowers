@@ -3,7 +3,8 @@
 
 Только чтение, ноль зависимостей, база 1CD не открывается. Заменяет MCP метаданных там,
 где нужны режим совместимости, режим блокировок, флаги модуля, карточка объекта,
-чтение модуля и поиск по коду. Выгрузка в формате EDT (.mdo) не поддержана.
+чтение модуля и поиск по коду. Форматы: Configurator XML (Configuration.xml) и EDT
+(Configuration/Configuration.mdo, структура сверена с образцом из репозитория 1C-Company/GitConverter).
 
   python3 config_facts.py info   <выгрузка>
   python3 config_facts.py list   <выгрузка> <Вид> [подстрока]      # Вид: Documents, CommonModules, ...
@@ -153,17 +154,122 @@ def synonym_of(props: ET.Element | None) -> str:
     return ""
 
 
+def edt_config(root: Path) -> Path | None:
+    """Путь к Configuration.mdo, если каталог это проект EDT (корень проекта или его src)."""
+    for candidate in (root / "Configuration" / "Configuration.mdo", root / "src" / "Configuration" / "Configuration.mdo"):
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def edt_root(root: Path) -> Path | None:
+    config = edt_config(root)
+    return config.parent.parent if config is not None else None
+
+
 def safe_root(root: Path) -> Path:
     resolved = root.expanduser().resolve()
     if not resolved.is_dir():
         raise DumpError(f"Каталог выгрузки не найден: {resolved}")
-    if not (resolved / "Configuration.xml").is_file():
-        raise DumpError(
-            "В каталоге нет Configuration.xml. Нужна выгрузка в файлы, не файл 1CD."
-        )
     if any(resolved.glob("*.1CD")) or any(resolved.glob("*.1cd")):
-        raise DumpError("В каталоге лежит файл базы 1CD. Этот MCP его не открывает.")
-    return resolved
+        raise DumpError("В каталоге лежит файл базы 1CD. Этот скрипт его не открывает.")
+    if (resolved / "Configuration.xml").is_file():
+        return resolved
+    edt = edt_root(resolved)
+    if edt is not None:
+        return edt
+    raise DumpError(
+        "В каталоге нет Configuration.xml (Configurator) или Configuration/Configuration.mdo (EDT). Нужна выгрузка в файлы, не файл 1CD."
+    )
+
+
+def is_edt(root: Path) -> bool:
+    return not (root / "Configuration.xml").is_file() and (root / "Configuration" / "Configuration.mdo").is_file()
+
+
+EDT_SKIP = {"name", "synonym", "comment", "producedTypes", "attributes", "tabularSections", "forms", "commands", "templates",
+            "dimensions", "resources", "containedObjects", "standardAttributes", "inputByString", "basedOn", "characteristics"}
+
+
+def edt_scalars(node: ET.Element) -> dict[str, str]:
+    found: dict[str, str] = {}
+    for child in node:
+        name = local_name(child.tag)
+        if name in EDT_SKIP or len(child) or not text(child):
+            continue
+        found[name] = text(child)
+    return found
+
+
+def edt_info(root: Path) -> str:
+    tree = parse_xml(root / "Configuration" / "Configuration.mdo")
+    scalars = edt_scalars(tree)
+    synonym = ""
+    syn = first(tree, "synonym")
+    if syn is not None:
+        synonym = text(first(syn, "value"))
+    counts: dict[str, int] = {}
+    for child in tree:
+        tag = local_name(child.tag)
+        if tag in EDT_KIND_TAGS and text(child):
+            counts[tag] = counts.get(tag, 0) + 1
+    lines = [
+        f"Имя: {text(first(tree, 'name')) or '—'}",
+        f"Синоним: {synonym or '—'}",
+        f"Версия конфигурации: {scalars.get('version', '—')}",
+        f"Поставщик: {scalars.get('vendor', '—')}",
+        f"Режим совместимости: {scalars.get('compatibilityMode', '—')}",
+        f"Модальность: {scalars.get('modalityUseMode', '—')}",
+        "Версия установленной платформы: в выгрузке нет",
+        f"БСП: {bsp_version(root)}",
+        f"Блокировки: {scalars.get('dataLockControlMode', '—')}",
+        f"Вариант языка: {scalars.get('scriptVariant', '—')}",
+        f"Режим запуска: {scalars.get('defaultRunMode', '—')}",
+        "Формат выгрузки: EDT (.mdo)",
+    ]
+    if counts:
+        lines.append("Состав: " + ", ".join(f"{EDT_KIND_TAGS[k]}: {n}" for k, n in sorted(counts.items())))
+    lines.append("Только чтение. База 1CD и запись конфигурации недоступны.")
+    return "\n".join(lines)
+
+
+EDT_KIND_TAGS = {
+    "catalogs": "Справочник", "documents": "Документ", "commonModules": "ОбщийМодуль", "informationRegisters": "РегистрСведений",
+    "accumulationRegisters": "РегистрНакопления", "enums": "Перечисление", "reports": "Отчет", "dataProcessors": "Обработка",
+    "constants": "Константа", "httpServices": "HTTPСервис", "webServices": "ВебСервис", "roles": "Роль", "scheduledJobs": "РегламентноеЗадание",
+    "exchangePlans": "ПланОбмена", "eventSubscriptions": "ПодпискаНаСобытие", "subsystems": "Подсистема", "commonForms": "ОбщаяФорма",
+}
+
+
+def edt_object_card(root: Path, kind: str, name: str) -> str:
+    path = root / kind / name / f"{name}.mdo"
+    if not path.is_file():
+        raise DumpError(f"Объект не найден: {kind}/{name}")
+    tree = parse_xml(path)
+    ru = RU_KIND.get(kind, kind)
+    lines = [f"{ru}.{name}"]
+    syn = first(tree, "synonym")
+    if syn is not None and text(first(syn, "value")):
+        lines.append(f"Синоним: {text(first(syn, 'value'))}")
+    flags = edt_scalars(tree)
+    if flags:
+        lines.append("Свойства: " + ", ".join(f"{k}={v}" for k, v in flags.items()))
+    attributes = [text(first(c, "name")) for c in tree if local_name(c.tag) == "attributes" and text(first(c, "name"))]
+    if attributes:
+        lines.append("Реквизиты: " + ", ".join(attributes))
+    tables = []
+    for c in tree:
+        if local_name(c.tag) == "tabularSections":
+            cols = [text(first(a, "name")) for a in c if local_name(a.tag) == "attributes" and text(first(a, "name"))]
+            tname = text(first(c, "name"))
+            tables.append(f"{tname}: {', '.join(cols)}" if cols else tname)
+    if tables:
+        lines.append("Табличные части:")
+        lines.extend(f"  {row}" for row in tables)
+    modules = list_bsl(path.parent, root)
+    lines.append("Модули:")
+    lines.extend(f"  {m}" for m in modules[:50] or ["  нет"])
+    return "\n".join(lines)
 
 
 def safe_file(root: Path, relative: str) -> Path:
@@ -279,6 +385,8 @@ def bsp_version(root: Path) -> str:
 
 def config_info(root: Path) -> str:
     root = safe_root(root)
+    if is_edt(root):
+        return edt_info(root)
     tree = parse_xml(root / "Configuration.xml")
     configuration = first(tree, "Configuration")
     if configuration is None:
@@ -318,6 +426,9 @@ def list_object_names(root: Path, kind: str) -> list[str]:
     if not folder.is_dir():
         return []
     names: set[str] = set()
+    for path in folder.iterdir():
+        if path.is_dir() and (path / f"{path.name}.mdo").is_file():
+            names.add(path.name)
     for path in folder.glob("*.xml"):
         names.add(path.stem)
     for path in folder.iterdir():
@@ -352,6 +463,8 @@ def list_objects(root: Path, kind: str, name_contains: str = "", limit: int = 50
 
 def object_card(root: Path, kind: str, name: str) -> str:
     root = safe_root(root)
+    if is_edt(root):
+        return edt_object_card(root, kind, name)
     xml_path = object_xml(root, kind, name)
     if xml_path is None:
         raise DumpError(f"Объект не найден: {kind}/{name}")

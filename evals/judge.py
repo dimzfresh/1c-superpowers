@@ -30,12 +30,17 @@ RUBRIC = """Ты независимый оценщик ревью кода 1С. 
 Верни только JSON, без пояснений вне JSON."""
 
 
+import os
+
+
 def load_truth() -> dict:
-    return json.loads((ROOT / "evals" / "judge_truth.json").read_text(encoding="utf-8"))
+    path = os.environ.get("JUDGE_TRUTH")
+    return json.loads((Path(path) if path else ROOT / "evals" / "judge_truth.json").read_text(encoding="utf-8"))
 
 
 def load_cases() -> dict:
-    return {c["id"]: c for c in json.loads((ROOT / "evals" / "negative.json").read_text(encoding="utf-8"))}
+    path = os.environ.get("EVAL_MANIFEST")
+    return {c["id"]: c for c in json.loads((Path(path) if path else ROOT / "evals" / "negative.json").read_text(encoding="utf-8"))}
 
 
 def task_text(case: dict) -> str:

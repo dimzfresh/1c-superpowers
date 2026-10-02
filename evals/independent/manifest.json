@@ -1,0 +1,114 @@
+[
+  {
+    "id": "sebestoimost-ostatki-na-moment",
+    "title": "sebestoimost-ostatki-na-moment",
+    "fixture": "tests/fixture-independent/sebestoimost-ostatki-na-moment.bsl",
+    "prompt": "Посмотри, пожалуйста, формирование движений по себестоимости в новом документе списания.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "rekvizity-obekta-dlya-formy",
+    "title": "rekvizity-obekta-dlya-formy",
+    "fixture": "tests/fixture-independent/rekvizity-obekta-dlya-formy.bsl",
+    "prompt": "Добавили универсальную функцию, чтобы формы получали реквизиты одним вызовом. Глянь.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "zakrytie-ustarevshih-zayavok",
+    "title": "zakrytie-ustarevshih-zayavok",
+    "fixture": "tests/fixture-independent/zakrytie-ustarevshih-zayavok.bsl",
+    "prompt": "Регламентное задание закрытия старых заявок, проверь перед выкладкой.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "provedenie-rashoda-so-sklada",
+    "title": "provedenie-rashoda-so-sklada",
+    "fixture": "tests/fixture-independent/provedenie-rashoda-so-sklada.bsl",
+    "prompt": "Переписали проведение расходной накладной, посмотри контроль остатков.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "realizatsiya-zapolnenie-po-zakazu",
+    "title": "realizatsiya-zapolnenie-po-zakazu",
+    "fixture": "tests/fixture-independent/realizatsiya-zapolnenie-po-zakazu.bsl",
+    "prompt": "Доработка заполнения реализации по заказу в нашем расширении. Нормально так делать?",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "zagruzka-paketa-kontragentov",
+    "title": "zagruzka-paketa-kontragentov",
+    "fixture": "tests/fixture-independent/zagruzka-paketa-kontragentov.bsl",
+    "prompt": "Загрузка контрагентов из пакета обмена с сайтом. Посмотри обработку ошибок.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "forma-zakaza-podbor-ceny",
+    "title": "forma-zakaza-podbor-ceny",
+    "fixture": "tests/fixture-independent/forma-zakaza-podbor-ceny.bsl",
+    "prompt": "Форма заказа: заполнение строки при выборе номенклатуры. Посмотри клиент-серверную часть.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "pechat-tovarnoy-nakladnoy",
+    "title": "pechat-tovarnoy-nakladnoy",
+    "fixture": "tests/fixture-independent/pechat-tovarnoy-nakladnoy.bsl",
+    "prompt": "Новая печатная форма товарной накладной, глянь перед мержем.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "kanal-prodazh-pered-zapisyu",
+    "title": "kanal-prodazh-pered-zapisyu",
+    "fixture": "tests/fixture-independent/kanal-prodazh-pered-zapisyu.bsl",
+    "prompt": "В расширении добавили канал продаж в реализацию. Проверь, пожалуйста, обработчик.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "schetchik-nomerov-partiy",
+    "title": "schetchik-nomerov-partiy",
+    "fixture": "tests/fixture-independent/schetchik-nomerov-partiy.bsl",
+    "prompt": "Функция выдачи следующего номера партии, посмотри транзакцию и блокировку.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "ostatki-po-skladu-dlya-podbora",
+    "title": "ostatki-po-skladu-dlya-podbora",
+    "fixture": "tests/fixture-independent/ostatki-po-skladu-dlya-podbora.bsl",
+    "prompt": "Функция для формы подбора, отдаёт остатки по складу. Посмотри запрос.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "otpravka-zakaza-postavshchiku-api",
+    "title": "otpravka-zakaza-postavshchiku-api",
+    "fixture": "tests/fixture-independent/otpravka-zakaza-postavshchiku-api.bsl",
+    "prompt": "Интеграция с API поставщика, отправка заказа. Посмотри работу с токеном и HTTP.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "vid-operacii-vozvratov-obnovlenie",
+    "title": "vid-operacii-vozvratov-obnovlenie",
+    "fixture": "tests/fixture-independent/vid-operacii-vozvratov-obnovlenie.bsl",
+    "prompt": "Обработчик обновления на заполнение нового реквизита ВидОперации в возвратах. Проверь.",
+    "must_match": [],
+    "must_not_match": []
+  },
+  {
+    "id": "zhurnal-izmeneniya-cen-podpiska",
+    "title": "zhurnal-izmeneniya-cen-podpiska",
+    "fixture": "tests/fixture-independent/zhurnal-izmeneniya-cen-podpiska.bsl",
+    "prompt": "Подписка для журнала изменения цен. Нормально, что тут привилегированный режим?",
+    "must_match": [],
+    "must_not_match": []
+  }
+]
