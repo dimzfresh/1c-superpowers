@@ -352,12 +352,19 @@ def list_bsl(directory: Path | None, root: Path) -> list[str]:
 
 BSP_NAME = re.compile(r'Описание\.Имя\s*=\s*"СтандартныеПодсистемы"')
 BSP_VERSION = re.compile(r'Описание\.Версия\s*=\s*"(\d+(?:\.\d+){1,3})"')
+# В части выгрузок БСП номер не литерал, а константа или функция:
+# Описание.Версия = ВерсияБиблиотеки() / СтандартныеПодсистемы.ВерсияБиблиотеки().
+# Тогда номер в выгрузке не лежит: об этом надо сказать, а не показывать «не найдена».
+BSP_VERSION_SOURCE = re.compile(
+    r'Описание\.Версия\s*=\s*([A-Za-zА-Яа-яЁё_][\wА-Яа-яЁё.]*\s*(?:\([^)]*\))?)'
+)
 
 
 def bsp_version(root: Path) -> str:
     """Номер БСП из модуля, который регистрирует подсистему. Регистр базы не читается."""
     modules = root / "CommonModules"
     found_name = False
+    fallback = ""
     if modules.is_dir():
         for path in modules.rglob("*.bsl"):
             if not path.is_file() or path.stat().st_size > 2_000_000:
@@ -370,16 +377,21 @@ def bsp_version(root: Path) -> str:
                 if not BSP_NAME.search(line):
                     continue
                 found_name = True
+                relative = path.relative_to(root).as_posix()
                 window = "\n".join(lines[max(0, index - 20) : index + 21])
                 match = BSP_VERSION.search(window)
                 if match:
-                    relative = path.relative_to(root).as_posix()
                     return f"{match.group(1)} ({relative}:{index + 1})"
+                source_match = BSP_VERSION_SOURCE.search(window)
+                if source_match and not fallback:
+                    fallback = f"{source_match.group(1).strip()} ({relative}:{index + 1})"
+    if fallback:
+        return f"номер в выгрузке не литерал, берётся выражением {fallback}"
     subsystem = (root / "Subsystems" / "СтандартныеПодсистемы").is_dir() or (
         root / "Subsystems" / "СтандартныеПодсистемы.xml"
     ).is_file()
     if found_name or subsystem:
-        return "подсистема есть, версия в модуле регистрации не найдена"
+        return "подсистема есть, номер в модуле регистрации не найден (спросить у автора или посмотреть в базе)"
     return "в выгрузке нет"
 
 
